@@ -4,9 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { BsCartX } from "react-icons/bs";
 import CartItem from "../cartItem/CartItem";
 import { useSelector } from "react-redux";
-import {axiosClient} from '../../utils/axiosClient'
-
-import {loadStripe} from '@stripe/stripe-js';
+import { useState } from "react";
 
 
 function Cart({ onClose }) {
@@ -14,33 +12,19 @@ function Cart({ onClose }) {
     let totalAmount = 0;
     cart.forEach((item) => (totalAmount += item.quantity * item.price));
     const isCartEmpty = cart.length === 0;
-
-    async function handleCheckout() {
-        try {
-            const response = await axiosClient.post('/orders', {
-                products: cart
-            });
-    
-            const stripe = await loadStripe(`${process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`);
-            const data = await stripe.redirectToCheckout({
-                sessionId: response.data.stripeId
-            })
-
-            console.log('stripe data', data);
-
-        } catch (error) {
-            console.log(error);
-        }
-        
+    const [textOn, setTextOn] = useState(false)
+    const setClose=()=>{
+        onClose()
+        setTextOn(false)
     }
 
     return (
         <div className="Cart">
-            <div className="overlay" onClick={onClose}></div>
+            <div className="overlay" onClick={setClose }></div>
             <div className="cart-content">
                 <div className="header">
                     <h3>Shopping Cart</h3>
-                    <div className="close-btn" onClick={onClose}>
+                    <div className="close-btn" onClick={setClose}>
                         <AiOutlineClose /> Close
                     </div>
                 </div>
@@ -63,9 +47,11 @@ function Cart({ onClose }) {
                             <h3 className="total-message">Total:</h3>
                             <h3 className="total-value">₹ {totalAmount}</h3>
                         </div>
-                        <div className="checkout btn-primary" onClick={handleCheckout}>Checkout now</div>
+                        <div className="checkout btn-primary" onClick={()=>{setTextOn(true)}}>Checkout now</div>
                     </div>
                 )}
+                {textOn &&
+                <p className="no-service-mesg">Sorry We are currently Out of Service*</p>}
             </div>
         </div>
     );

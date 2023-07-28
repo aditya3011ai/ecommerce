@@ -1,18 +1,14 @@
 .ProductDetail {
-    margin-top: 40px;
+margin-top: 40px;
     .product-layout {
         display: flex;
-
         .product-img {
-            max-width: 600px;
-            min-width: 400px;
             height: 600px;
             display: flex;
             justify-content: center;
-            align-items: center;
-
+            align-items: flex-start;
             img {
-                height: 100%;
+                height: 550px;
                 object-fit: contain;
                 transform: scale(0.9);
             }

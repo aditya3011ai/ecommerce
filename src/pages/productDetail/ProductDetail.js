@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import dummyImg from "../../assets/naruto.jpeg";
 import { axiosClient } from "../../utils/axiosClient";
 import "./ProductDetail.scss";
 import Loader from "../../components/loader/Loader";
@@ -11,6 +10,7 @@ function ProductDetail() {
     const params = useParams();
     const [product, setProduct] = useState(null);
     const dispatch = useDispatch();
+    const [loader, setloader] = useState(true)
 
     const cart = useSelector(state => state.cartReducer.cart);
     const quantity = cart.find(item => item.key === params.productId)?.quantity || 0;
@@ -25,17 +25,21 @@ function ProductDetail() {
     }
 
     useEffect(() => {
+        setloader(true)
         setProduct(null);
         fetchData();
+        setloader(false)
+         // eslint-disable-next-line
     }, [params]);
 
-    if (!product) {
-        return <Loader />;
+    if(loader){
+       return <div className="center">
+        <Loader/>
+        </div>
     }
-
     return (
-        <div className="ProductDetail">
-            <div className="container">
+        <div className="ProductDetail container">
+           
                 <div className="product-layout">
                     <div className="product-img">
                         <img
@@ -77,9 +81,8 @@ function ProductDetail() {
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
-    );
+);
 }
 
 export default ProductDetail;
