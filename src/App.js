@@ -15,7 +15,7 @@ function App() {
 
     useEffect(() => {
         dispatch(fetchCategories())
-    }, [])
+    }, [dispatch])
 
     return (
         <div className="App">

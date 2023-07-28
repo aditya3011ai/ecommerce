@@ -36,6 +36,7 @@ function Collection() {
     useEffect(() => {
         setCategoryId(params.categoryId);
         fetchProducts();
+        // eslint-disable-next-line
     }, [params, sortBy]);
 
     function updateCategory(e) {
