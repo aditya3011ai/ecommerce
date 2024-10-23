@@ -2,8 +2,6 @@
 
 # Getting Started with Create React App
 
-Demo Site :- https://posterz-ecomm.netlify.app/
-
 ## Available Scripts
 
 In the project directory, you can run:
